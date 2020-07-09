@@ -21,7 +21,12 @@ class ViewController: UIViewController, URLSessionDownloadDelegate {
         indeicatorView.startAnimating()
         let sessionConfiguration = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfiguration, delegate: self, delegateQueue: .main)
-        downloadTask = session.downloadTask(with: URL(string: "https://raw.githubusercontent.com/ChoiJinYoung/iphonewithswift2/master/sample.jpeg")!)
+//        downloadTask = session.downloadTask(with: URL(string: "https://raw.githubusercontent.com/ChoiJinYoung/iphonewithswift2/master/sample.jpeg")!)
+        downloadTask = session.downloadTask(with: URL(string: "https://raw.githubusercontent.com/ChoiJinYoung/iphonewithswift2/master/sample.jpeg")!, completionHandler: {(data, response, error) -> Void in
+            let dataTemp:Data = try! Data(contentsOf: data!)
+            self.imgView.image =  UIImage(data: dataTemp)
+            self.indeicatorView.stopAnimating()
+        })
         downloadTask.resume()
     }
     
@@ -45,9 +50,9 @@ class ViewController: UIViewController, URLSessionDownloadDelegate {
     }
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        let dataTemp:Data = try! Data(contentsOf: location)
-        self.imgView.image =  UIImage(data: dataTemp)
-        indeicatorView.stopAnimating()
+//        let dataTemp:Data = try! Data(contentsOf: location)
+//        self.imgView.image =  UIImage(data: dataTemp)
+//        indeicatorView.stopAnimating()
     }
     
     override func viewDidLoad() {
